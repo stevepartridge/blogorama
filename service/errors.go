@@ -12,10 +12,22 @@ import (
 )
 
 var (
-	ErrRequestIsNil   = errors.New("blog.request.is_nil")
-	ErrInvalidRequest = errors.New("blog.bad_request")
-	ErrNotFound       = errors.New("blog.not_found")
+	// ErrRequestIsNil error message
+	ErrRequestIsNil = errors.New("blog.request.is_nil")
 
+	// ErrInvalidRequest error message
+	ErrInvalidRequest = errors.New("blog.bad_request")
+
+	// ErrNotFound error message
+	ErrNotFound = errors.New("blog.not_found")
+
+	// ErrGetPostsByUserMissingUserID error message
+	ErrGetPostsByUserMissingUserID = errors.New("blog.posts.get_for_user.missing_user_id")
+
+	// ErrGetPrivatePostUserNotPermitted error message
+	ErrGetPrivatePostUserNotPermitted = errors.New("blog.posts.post.get_private.user_not_permitted")
+
+	// ErrResourceConnectionFailure error message
 	ErrResourceConnectionFailure = errors.New("blog.resource.connection_failed")
 )
 
@@ -58,6 +70,13 @@ func codeFromError(err error) codes.Code {
 		ErrRequestIsNil:
 
 		code = codes.InvalidArgument
+
+	case
+		blog.ErrUpdatePostInvalidUser,
+		blog.ErrDeletePostInvalidUser,
+		ErrGetPrivatePostUserNotPermitted:
+
+		code = codes.PermissionDenied
 
 	case
 		blog.ErrGetPostNotFound,
