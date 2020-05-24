@@ -1,0 +1,71 @@
+syntax = "proto3";
+// option go_package = "github.com/stevepartridge/blogorama/protos/go";
+package blog;
+
+import "google/api/annotations.proto";
+// import "google/protobuf/any.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+// import "google/protobuf/struct.proto";
+
+// import "google/protobuf/empty.proto";
+
+message Post {
+
+  option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+    example : {
+      value : '{ "title": "My First Post", "content": "My post content"}'
+    }
+  };
+
+  // UUID for post
+  int32 id = 1;
+
+  // Title of the blog post
+  string title = 3;
+
+  // Content body of the blog post
+  string content = 4;
+
+  // Flag for if post is private
+  bool private = 5;
+
+  // Created By Reference
+  int32 created_by_id = 20;
+
+  // Timestamp of creation time
+  string created_at = 21;
+
+  // Updated By Reference
+  int32 updated_by_id = 22;
+
+  // Timestamp of last update
+  string updated_at = 23;
+}
+
+message PostRequest {
+
+  Post post = 1;
+
+  repeated int32 ids = 2;
+
+  int32 user_id = 3;
+
+  int32 limit = 10;
+
+  int32 offset = 11;
+
+  int32 total = 12;
+}
+
+message PostResponse {
+
+  Post post = 1;
+
+  repeated Post posts = 2;
+
+  int32 limit = 10;
+
+  int32 offset = 11;
+
+  int32 total = 12;
+}

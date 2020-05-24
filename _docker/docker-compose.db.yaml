@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  blog_maria:
+    container_name: blog_db
+    image: mariadb:10.3
+    labels:
+      - traefik.enable=false
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=local_user
+      - MYSQL_PASS=password
+      - CREATE_DATABASES=blog
+    volumes:
+      - ./mariadb/initdb.d/:/docker-entrypoint-initdb.d/
+      - ./mariadb/conf.d/:/etc/mysql/conf.d/
+      - blog_db:/var/lib/mysql
+    networks:
+      - blog
+    ports:
+      - "13306:3306"
+
+volumes:
+  blog_db:
+    driver: local
+
+networks:
+  blog:
+    external: true

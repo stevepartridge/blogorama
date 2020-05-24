@@ -1,0 +1,72 @@
+syntax = "proto3";
+// option go_package = "github.com/stevepartridge/blogorama/protos/go";
+package blog;
+
+import "google/api/annotations.proto";
+import "google/protobuf/any.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+import "google/protobuf/struct.proto";
+
+// import "google/protobuf/empty.proto";
+
+message User {
+
+  option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+    example : {value : '{ "name": "Creed Bratton" }'}
+  };
+
+  // ID auto incremented but not used externally
+  int32 id = 1;
+
+  // UUID for user (Primary Reference ID)
+  string api_key = 2
+      [ (grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {
+        pattern : "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-"
+                  "[a-fA-F0-9]{12}",
+        min_length : 1
+      } ];
+
+  // Customer internal Reference ID (account, member ID, etc.)
+  string name = 3;
+
+  // Active indicates if a user is still active or not
+  bool active = 4;
+
+  // Created By Reference
+  int32 created_by_id = 20;
+
+  // Timestamp of creation time
+  string created_at = 21;
+
+  // Updated By Reference
+  int32 updated_by_id = 22;
+
+  // Timestamp of last update
+  string updated_at = 23;
+}
+
+message UserRequest {
+
+  User user = 1;
+
+  repeated string ids = 2;
+
+  int32 limit = 10;
+
+  int32 offset = 11;
+
+  int32 total = 12;
+}
+
+message UserResponse {
+
+  User user = 1;
+
+  repeated User users = 2;
+
+  int32 limit = 10;
+
+  int32 offset = 11;
+
+  int32 total = 12;
+}

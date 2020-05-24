@@ -1,0 +1,5 @@
+.DS_Store
+_scripts/local.env
+certificates/out
+vendor
+cover.out

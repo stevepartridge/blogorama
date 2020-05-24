@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  traefik:
+    image: traefik:1.7-alpine
+    container_name: "blog_traefik"
+    networks:
+      blog:
+        ipv4_address: 172.16.200.100
+        aliases:
+          - traefik.${LOCAL_DOMAIN}
+
+    labels:
+      - traefik.enable=true
+
+      - traefik.frontend.rule=Host:traefik.${LOCAL_DOMAIN}
+      - traefik.port=8080
+
+    ports:
+      - "80:80"
+      - "443:443"
+
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      # - "$PWD/traefik/traefik.yaml:/etc/traefik/traefik.yaml:ro"
+      - ./../certificates/out/:/certs/
+
+    command:
+      - --api
+      - --logLevel=DEBUG
+      - --defaultEntryPoints=https,http
+      - --insecureskipverify=true
+
+      - "--entryPoints=Name:http Address::80 Redirect.EntryPoint:https"
+      - "--entryPoints=Name:https Address::443 ProxyProtocol.TrustedIPs:127.0.0.1,172.0.0.0/16,10.0.0.0/16 ProxyProtocol.Insecure:true ForwardedHeaders.TrustedIPs:127.0.0.1,172.0.0.0/16,10.0.0.0/16 TLS TLS.DefaultCertificate.Cert:/certs/host.local.crt TLS.DefaultCertificate.Key:/certs/host.local.key TLS.MinVersion:VersionTLS12 TLS.CipherSuites:TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256"
+      - --api
+      - --ping
+      - --retry
+      - --accesslog.format=json
+
+      - --docker
+
+networks:
+  blog:
+    external: true

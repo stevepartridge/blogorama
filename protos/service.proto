@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package blog;
+
+import "google/api/annotations.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+import "google/protobuf/empty.proto";
+// import "google/protobuf/wrappers.proto";
+
+// import "gogoproto/gogo.proto";
+
+import "users.proto";
+import "posts.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+  info : {title : "Blogorama API";
+contact : {
+name:
+  "Support";
+url:
+  "https://support.host.local";
+email:
+  "support@host.local";
+};
+}
+;
+}
+;
+
+service Blog {
+
+  // Get service version and build info
+  rpc Info(InfoRequest) returns (InfoResponse) {
+    option (google.api.http) = {
+      get : "/info"
+    };
+  }
+
+  // Create a new user
+  rpc CreateUser(User) returns (UserResponse) {
+    option (google.api.http) = {
+      post : "/v1/users"
+      body : "*"
+    };
+  }
+
+  // Retrieve a user
+  rpc GetUser(UserRequest) returns (UserResponse) {
+    option (google.api.http) = {
+      get : "/v1/users/{user.id}"
+    };
+  }
+
+  // Retrieve users
+  rpc GetUsers(UserRequest) returns (UserResponse) {
+    option (google.api.http) = {
+      get : "/v1/users"
+    };
+  }
+
+  // Update user information
+  rpc UpdateUser(User) returns (UserResponse) {
+    option (google.api.http) = {
+      put : "/v1/users/{id}"
+      body : "*"
+    };
+  }
+
+  // Retrieve a user
+  rpc DeleteUser(User) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete : "/v1/users/{id}"
+    };
+  }
+
+  // Retrieve posts for a specific user
+  rpc GetPostsByUser(PostRequest) returns (PostResponse) {
+    option (google.api.http) = {
+      get : "/v1/users/{user_id}/posts"
+    };
+  }
+
+  // Create a new post
+  rpc CreatePost(Post) returns (PostResponse) {
+    option (google.api.http) = {
+      post : "/v1/posts"
+      body : "*"
+    };
+  }
+
+  // Update a specific post
+  rpc UpdatePost(Post) returns (PostResponse) {
+    option (google.api.http) = {
+      put : "/v1/posts/{id}"
+      body : "*"
+    };
+  }
+
+  // Retrieve a specific post
+  rpc GetPost(PostRequest) returns (PostResponse) {
+    option (google.api.http) = {
+      get : "/v1/posts/{post.id}"
+    };
+  }
+
+  // Retrieve a specific post
+  rpc DeletePost(Post) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete : "/v1/posts/{id}"
+    };
+  }
+}
+
+message InfoRequest {}
+message InfoResponse {
+
+  string name = 1;
+
+  string version = 2;
+
+  string build = 3;
+
+  string built_at = 4;
+
+  string git_hash = 5;
+}
