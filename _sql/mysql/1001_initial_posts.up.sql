@@ -5,7 +5,6 @@
 DROP TABLE IF EXISTS `posts`;
 CREATE TABLE `posts` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `uuid` char(36) NOT NULL,
   `title` char(128) NOT NULL,
   `content` TEXT,
   `private` tinyint(1) unsigned NOT NULL default '0',
@@ -14,7 +13,6 @@ CREATE TABLE `posts` (
   `created_by` int(11) unsigned NOT NULL default '0',
   `created_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uuid` (`uuid`),
   KEY `title` (`title`),
   KEY `private` (`private`),
   KEY `updated_by` (`updated_by`),
@@ -27,7 +25,6 @@ DROP TABLE IF EXISTS `posts_history`;
 CREATE TABLE `posts_history` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `post_id` int(11) unsigned NOT NULL,
-  `uuid` char(36) NOT NULL,
   `title` char(128) NOT NULL,
   `content` TEXT,
   `private` tinyint(1) unsigned NOT NULL default '0',
@@ -39,7 +36,6 @@ CREATE TABLE `posts_history` (
   `history_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `post_id` (`post_id`),
-  KEY `uuid` (`uuid`),
   KEY `title` (`title`),
   KEY `private` (`private`),
   KEY `updated_by` (`updated_by`),
@@ -55,7 +51,6 @@ DROP TRIGGER IF EXISTS `posts_history_trigger_update`;
 CREATE TRIGGER `posts_history_trigger_update` BEFORE UPDATE ON `posts` FOR EACH ROW BEGIN
     INSERT INTO `posts_history` SET
     `post_id`         = OLD.id,
-    `uuid`            = old.uuid,
     `title`           = old.title,
     `content`         = old.content,
     `private`         = old.private,
@@ -73,7 +68,6 @@ DROP TRIGGER IF EXISTS `posts_history_trigger_delete`;
 CREATE TRIGGER `posts_history_trigger_delete` BEFORE DELETE ON `posts` FOR EACH ROW BEGIN
     INSERT INTO `posts_history` SET
     `post_id`         = OLD.id,
-    `uuid`            = old.uuid,
     `title`           = old.title,
     `content`         = old.content,
     `private`         = old.private,
