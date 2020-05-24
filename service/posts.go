@@ -37,6 +37,7 @@ func (s *blogService) UpdatePost(ctx context.Context, req *pb.Post) (*pb.PostRes
 	}
 
 	post := blog.PostFromProto(req)
+
 	post.UpdatedByID = extractUserIDFromContext(ctx)
 
 	err := blog.Store.UpdatePost(&post)
@@ -64,6 +65,12 @@ func (s *blogService) GetPost(ctx context.Context, req *pb.PostRequest) (*pb.Pos
 	post, err := blog.Store.GetPostByID(int(req.GetPost().Id))
 	if err != nil {
 		return nil, handleError(err)
+	}
+
+	requestingUserID := extractUserIDFromContext(ctx)
+
+	if post.Private && requestingUserID != post.CreatedByID {
+		return nil, ErrGetPrivatePostUserNotPermitted
 	}
 
 	resp := &pb.PostResponse{
@@ -107,6 +114,14 @@ func (s *blogService) GetPosts(ctx context.Context, req *pb.PostRequest) (*pb.Po
 
 func (s *blogService) GetPostsByUser(ctx context.Context, req *pb.PostRequest) (*pb.PostResponse, error) {
 
+	if req == nil {
+		return nil, ErrInvalidRequest
+	}
+
+	if req.UserId == 0 {
+		return nil, ErrGetPostsByUserMissingUserID
+	}
+
 	return s.GetPosts(ctx, req)
 }
 
@@ -114,6 +129,11 @@ func (s *blogService) DeletePost(ctx context.Context, req *pb.Post) (*empty.Empt
 
 	if req == nil {
 		return nil, ErrInvalidRequest
+	}
+
+	err := blog.Store.DeletePost(int(req.Id), extractUserIDFromContext(ctx))
+	if err != nil {
+		return nil, handleError(err)
 	}
 
 	return nil, nil
