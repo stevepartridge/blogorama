@@ -16,7 +16,7 @@ var (
 	GitHash string
 )
 
-// Service holds the server and faux auth mechinism
+// Service holds the server and faux auth mechanism
 type Service struct {
 	FauxAuth fauxauth.FauxAuth
 

@@ -6,6 +6,7 @@ import (
 	"github.com/stevepartridge/service/swagger"
 )
 
+// Add the swagger docs to the the Mux router
 func (s *Service) swagger() {
 
 	swag, err := swagger.New(s.Server.Router)
@@ -14,14 +15,11 @@ func (s *Service) swagger() {
 		return
 	}
 
-	// Swagger Docs
-	//
-
 	swag.Title = Name
 	swag.Version = Version
 	swag.Schemes = []string{"https"}
 
-	// swag.Path = "/docs"
+	// swag.Path = "/docs" // Default
 
 	swag.JSONData, err = Asset("protos/swagger/service.swagger.json")
 	if err != nil {

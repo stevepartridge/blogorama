@@ -94,7 +94,7 @@ func protosSwaggerPostsSwaggerJson() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "protos/swagger/posts.swagger.json", size: 4649, mode: os.FileMode(420), modTime: time.Unix(1590273766, 0)}
+	info := bindataFileInfo{name: "protos/swagger/posts.swagger.json", size: 4649, mode: os.FileMode(420), modTime: time.Unix(1590343802, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -114,7 +114,7 @@ func protosSwaggerServiceSwaggerJson() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "protos/swagger/service.swagger.json", size: 30747, mode: os.FileMode(420), modTime: time.Unix(1590273766, 0)}
+	info := bindataFileInfo{name: "protos/swagger/service.swagger.json", size: 30747, mode: os.FileMode(420), modTime: time.Unix(1590343802, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -134,7 +134,7 @@ func protosSwaggerUsersSwaggerJson() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "protos/swagger/users.swagger.json", size: 4649, mode: os.FileMode(420), modTime: time.Unix(1590273766, 0)}
+	info := bindataFileInfo{name: "protos/swagger/users.swagger.json", size: 4649, mode: os.FileMode(420), modTime: time.Unix(1590343802, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
