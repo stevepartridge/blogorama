@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/Boostport/migration v0.18.0
+	github.com/DATA-DOG/go-sqlmock v1.4.1
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/go-openapi/spec v0.19.4
 	github.com/go-sql-driver/mysql v1.5.0

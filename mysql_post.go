@@ -96,9 +96,18 @@ func (store MySQL) UpdatePost(post *Post) error {
 		return ErrUpdatePostUpdatedByMissing
 	}
 
+	p, err := store.GetPostByID(post.ID)
+	if err != nil {
+		return err
+	}
+
+	if post.UpdatedByID != p.CreatedByID {
+		return ErrUpdatePostInvalidUser
+	}
+
 	conn := db.Connx(mysqlDbID)
 
-	_, err := conn.Exec(`
+	_, err = conn.Exec(`
     UPDATE `+postsTableName+` SET
       title       = ?,
       content     = ?,
@@ -119,7 +128,7 @@ func (store MySQL) UpdatePost(post *Post) error {
 		return err
 	}
 
-	p, err := store.GetPostByID(post.ID)
+	p, err = store.GetPostByID(post.ID)
 	if err != nil {
 		return err
 	}
@@ -171,10 +180,19 @@ func (store MySQL) DeletePost(id, deletedBy int) error {
 		return ErrDeletePostMissingDeletedByID
 	}
 
+	p, err := store.GetPostByID(id)
+	if err != nil {
+		return err
+	}
+
+	if deletedBy != p.CreatedByID {
+		return ErrDeletePostInvalidUser
+	}
+
 	conn := db.Connx(mysqlDbID)
 
 	// Issue an update with the deleted by in order to have an audit log in the history table
-	_, err := conn.Exec(`
+	_, err = conn.Exec(`
     UPDATE `+postsTableName+` SET
       active     = 0,
       updated_by = ?
