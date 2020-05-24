@@ -92,6 +92,17 @@ The command packages up any necessary asset files to be included in the binary i
 
 As part of using the protobuf files swagger assets to present the auto-generated documentation resources with no additional work. You can see that by hitting the `https://host.local:8000/docs` endpoint once the service is up and running.
 
+### Testing
+To run the tests you can use
+```
+make tests
+```
+OR
+```
+make test-show-coverage
+```
+This will open up the coverage reports in the browser after successfully running the tests.
+
 ## Using the API
 
 #### Authentication
