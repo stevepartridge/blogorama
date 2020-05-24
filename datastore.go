@@ -5,8 +5,13 @@ import (
 )
 
 const (
-	DatastoreTypeMaria     = "maria"
-	DatastoreTypeMySQL     = "mysql"
+	// DatastoreTypeMaria MariaDB type
+	DatastoreTypeMaria = "maria"
+
+	// DatastoreTypeMySQL MySQL type
+	DatastoreTypeMySQL = "mysql"
+
+	// DatastoreTypeMaria MySQL/MariaDB mock type
 	DatastoreTypeMySQLMock = "mysql_mock"
 )
 
@@ -16,6 +21,7 @@ var (
 	defaultLimit = 0
 )
 
+// Datastore interface
 type Datastore interface {
 	Migrations() error
 
@@ -40,6 +46,7 @@ type Datastore interface {
 	GetPostsByCreatedByID(createdBy int, opts ...int) ([]Post, ResultsInfo, error)
 }
 
+// DatastoreConfig holds the specific connection info and type
 type DatastoreConfig struct {
 	Type       string
 	Host       string
@@ -51,12 +58,14 @@ type DatastoreConfig struct {
 	Migrations bool
 }
 
+// ResultsInfo is leveraged for pagination type info from a query
 type ResultsInfo struct {
 	Limit  int
 	Offset int
 	Total  int
 }
 
+// SetDatastore sets or overrides the current Store implementation
 func SetDatastore(config DatastoreConfig) error {
 
 	var err error

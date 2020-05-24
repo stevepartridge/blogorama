@@ -5,7 +5,7 @@ import "time"
 // User holds the basic user information
 type User struct {
 	ID          int       `json:"id"`
-	APIKey        string    `json:"api_key"`
+	APIKey      string    `json:"api_key"`
 	Name        string    `json:"name"`
 	Active      bool      `json:"active"`
 	CreatedByID int       `json:"created_by_id"`

@@ -7,7 +7,7 @@ import (
 	"github.com/stevepartridge/db"
 )
 
-// Create a new Post by passing in a reference that excludes an ID
+// CreatePost a new Post by passing in a reference that excludes an ID
 //  required:
 //    Title
 //    Content
@@ -69,7 +69,7 @@ func (store MySQL) CreatePost(post *Post) error {
 
 }
 
-// Update an existing Post and modify the reference to reflect the updated info in the database
+// UpdatePost an existing Post and modify the reference to reflect the updated info in the database
 //  required:
 //    ID
 //    Title

@@ -9,7 +9,7 @@ import (
 	"github.com/stevepartridge/db"
 )
 
-// Create a new User by passing in a reference that excludes an ID
+// CreateUser a new User by passing in a reference that excludes an ID
 //  required:
 //    Name
 func (store MySQL) CreateUser(user *User) error {
@@ -67,7 +67,7 @@ func (store MySQL) CreateUser(user *User) error {
 
 }
 
-// Update an existing User and modify the reference to reflect the updated info in the database
+// UpdateUser an existing User and modify the reference to reflect the updated info in the database
 //  required:
 //    ID
 //    Name
