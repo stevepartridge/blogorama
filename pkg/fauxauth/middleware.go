@@ -32,7 +32,7 @@ func (f *FauxAuth) Interceptor() func(context.Context, interface{}, *grpc.UnaryS
 			}
 
 			// Add the User.ID to the the context for easy reference down the chain
-			ctx = middleware.MergeStringValueIntoContextFromMetadata(ctx, middleware.UserIDKey, strconv.Itoa(user.ID))
+			ctx = context.WithValue(ctx, middleware.UserIDKey, strconv.Itoa(user.ID))
 
 		}
 
