@@ -35,12 +35,13 @@ func (store MySQL) CreatePost(post *Post) error {
     INSERT INTO `+postsTableName+` SET
       title        = ?,
       content      = ?,
-      active       = 1,
+      private      = ?,
       created_by   = ?,
       created_at   = NOW(6)
     `,
 		post.Title,
 		post.Content,
+		post.Private,
 		post.CreatedByID,
 	)
 
@@ -194,7 +195,6 @@ func (store MySQL) DeletePost(id, deletedBy int) error {
 	// Issue an update with the deleted by in order to have an audit log in the history table
 	_, err = conn.Exec(`
     UPDATE `+postsTableName+` SET
-      active     = 0,
       updated_by = ?
     WHERE
       id   = ?
