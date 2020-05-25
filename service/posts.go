@@ -86,17 +86,7 @@ func (s *blogService) GetPosts(ctx context.Context, req *pb.PostRequest) (*pb.Po
 		return nil, ErrInvalidRequest
 	}
 
-	var (
-		list []blog.Post
-		info blog.ResultsInfo
-		err  error
-	)
-
-	if req.UserId > 0 {
-		list, info, err = blog.Store.GetPosts(int(req.UserId), int(req.Limit), int(req.Offset))
-	} else {
-		list, info, err = blog.Store.GetPosts(int(req.Limit), int(req.Offset))
-	}
+	list, info, err := blog.Store.GetPosts(int(req.Limit), int(req.Offset), int(req.UserId))
 
 	if err != nil {
 		return nil, handleError(err)
@@ -136,5 +126,5 @@ func (s *blogService) DeletePost(ctx context.Context, req *pb.Post) (*empty.Empt
 		return nil, handleError(err)
 	}
 
-	return nil, nil
+	return &empty.Empty{}, nil
 }
