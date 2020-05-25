@@ -107,7 +107,7 @@ This will open up the coverage reports in the browser after successfully running
 
 #### Authentication
 
-Instead of adding the complexity of leveraging OAuth2 or the like to handle authentication there's a _Faux Auth_ mechanism to fake the authorization and access. With the exception `/info` and `POST:/v1/users` all endpoints are protected and require an API Key in the `X-API-Key` header.
+Instead of adding the complexity of leveraging OAuth2 or the like to handle authentication there's a [_Faux Auth_](https://github.com/stevepartridge/blogorama/tree/master/pkg/fauxauth) mechanism to fake the authorization and access. With the exception `/info` and `POST:/v1/users` all endpoints are protected and require an API Key in the `X-API-Key` header.
 
 Generating an API Key is handled by creating a user.
 
