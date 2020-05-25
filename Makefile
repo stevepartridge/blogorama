@@ -39,8 +39,8 @@ hosts:
 
 deps:
 	@echo "Verifying go mod dependencies"
-# @go mod tidy
-# @go mod vendor
+	@go mod tidy
+	@go mod vendor
 # If it were a private repo
 #	@GOPROXY=direct GOPRIVATE=github.com/stevepartridge/blogorama/* go mod tidy
 #	@GOPROXY=direct GOPRIVATE=github.com/stevepartridge/blogorama/* go mod vendor
