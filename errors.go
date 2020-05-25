@@ -86,6 +86,9 @@ var (
 	// ErrDeletePostMissingDeletedByID error message
 	ErrDeletePostMissingDeletedByID = errors.New("blog.posts.delete.missing.deleted_by_id")
 
+	// ErrDeletePostInvalidID
+	ErrDeletePostInvalidID = errors.New("blog.posts.delete.invalid.id")
+
 	// ErrGetPostNotFound error message
 	ErrGetPostNotFound = errors.New("blog.posts.post.not_found")
 )

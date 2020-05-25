@@ -166,12 +166,13 @@ func (store MySQL) GetPostByID(id int) (Post, error) {
 
 	defer rows.Close()
 
-	return parsePostFromRows(rows), err
+	return parsePostFromRows(rows), nil
 
 }
 
 // DeletePost removes a post from the database
 func (store MySQL) DeletePost(id, deletedBy int) error {
+	log.Debug().Int("post_id", id).Int("deleted_by", deletedBy).Msg("DeletePost")
 
 	if id == 0 {
 		return ErrDeletePostMissingID
@@ -184,6 +185,10 @@ func (store MySQL) DeletePost(id, deletedBy int) error {
 	p, err := store.GetPostByID(id)
 	if err != nil {
 		return err
+	}
+
+	if p.ID == 0 {
+		return ErrDeletePostInvalidID
 	}
 
 	if deletedBy != p.CreatedByID {
