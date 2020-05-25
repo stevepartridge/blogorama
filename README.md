@@ -32,7 +32,7 @@ Due to some limitations with Bash 3 it's recommended to have Bash 4+.
 
 ### Running the Service
 
-Everything is managed via a [Makefile](https://github.com/stevepartridge/blogorama/tree/master/_scripts) and a collection of [helper scripts](https://github.com/stevepartridge/blogorama/tree/master/Makefile) in the effort to ease the setup and development processes.
+Everything is managed via a [Makefile](https://github.com/stevepartridge/blogorama/tree/master/Makefile) and a collection of [helper scripts](https://github.com/stevepartridge/blogorama/tree/master/_scripts) in the effort to ease the setup and development processes.
 
 The service is intended to run in a semi-real way that simulates a deployed service. To this it is recommended to add `host.local` to your `/etc/hosts` file. You can use the helper command to this easily:
 
@@ -114,7 +114,7 @@ Instead of adding the complexity of leveraging OAuth2 or the like to handle auth
 Generating an API Key is handled by creating a user.
 
 ```
-curl -X POST "https://host.local:8000/v1/users" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"name\": \"Creed Bratton\"}"
+curl --insecure -X POST "https://host.local:8000/v1/users" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"name\": \"Creed Bratton\"}"
 ```
 
 Which should result in a response similar to this:
