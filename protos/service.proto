@@ -106,6 +106,13 @@ service Blog {
   }
 
   // Retrieve a specific post
+  rpc GetPosts(PostRequest) returns (PostResponse) {
+    option (google.api.http) = {
+      get : "/v1/posts"
+    };
+  }
+
+  // Retrieve a specific post
   rpc DeletePost(Post) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete : "/v1/posts/{id}"
