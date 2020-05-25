@@ -114,7 +114,7 @@ Instead of adding the complexity of leveraging OAuth2 or the like to handle auth
 Generating an API Key is handled by creating a user.
 
 ```
-curl -X POST "https://host.local:8000/v1/users" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"name\": \"Creed Bratton\"}"
+curl --insecure -X POST "https://host.local:8000/v1/users" -H "accept: application/json" -H "Content-Type: application/json" -d "{  \"name\": \"Creed Bratton\"}"
 ```
 
 Which should result in a response similar to this:
