@@ -19,6 +19,22 @@ gomod() {
   echo $GOPATH/src/${pkg}
 }
 
+grpcGatewayPath=$(gomod "github.com/grpc-ecosystem/grpc-gateway")
+gogoPath=$(gomod "github.com/gogo/protobuf")
+
+# echo $grpcGatewayPath
+# echo $grpcGatewayPath/protoc-gen-grpc-gateway
+# echo $grpcGatewayPath/protoc-gen-swagger
+if [ ! -d $grpcGatewayPath ] || [ ! -d "$grpcGatewayPath/protoc-gen-grpc-gateway" ] || [ ! -d "$grpcGatewayPath/protoc-gen-swagger" ]; then
+  echo "Get grpc-gateway"
+  go get github.com/grpc-ecosystem/grpc-gateway/...@v1.14.6
+fi
+
+# echo $gogoPath
+if [ ! -d $gogoPath ]; then
+  go get github.com/gogo/protobuf@v1.3.5
+fi
+
 if [[ ! $(which protoc) ]]; then
 
   if [ -d ./tmp ]; then
@@ -77,9 +93,7 @@ if [[ ! $(which protoc) ]]; then
   # exit
   echo "Using go get to retreive grpc-ecosystem/grpc-gateway tools..."
 
-  go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-  go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
-  go get -u github.com/golang/protobuf/protoc-gen-go
+  go get github.com/golang/protobuf/...@v1.22.0
 
   cd ../
 
@@ -112,18 +126,6 @@ if [[ ! $(which protoc) ]]; then
 fi
 
 
-
-grpcGatewayPath=$(gomod "github.com/grpc-ecosystem/grpc-gateway")
-if [ ! -d $grpcGatewayPath ] || [ -d "$grpcGatewayPath/protoc-gen-grpc-gateway" ] || [ -d "$grpcGatewayPath/protoc-gen-swagger" ]; then
-  go get github.com/grpc-ecosystem/grpc-gateway/...
-fi
-
-gogoPath=$(gomod "github.com/gogo/protobuf")
-echo $gogoPath
-if [ ! -d $gogoPath ]; then
-  go get github.com/gogo/protobuf/...
-fi
-
 printf "Go gRPC Files..."
 protoc -I=./ \
   -I=$gogoPath \
@@ -131,6 +133,7 @@ protoc -I=./ \
   -I=$grpcGatewayPath/third_party/googleapis \
   -I=$BASE_DIR/vendor \
   --proto_path=$BASE_DIR/protos \
+  --go_opt=paths=source_relative \
   --go_out=plugins=grpc:./protos/go $BASE_DIR/protos/*.proto
 
 printf "Go gRPC Gateway Files..."
