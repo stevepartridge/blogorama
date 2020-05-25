@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# set -e
+set -e
 
 BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
@@ -25,7 +25,9 @@ if [[ "$NETWORK_NAME" == "" ]]; then
 
 fi
 
+set +e
 networkExists=$(docker network ls | grep $NETWORK_NAME)
+set -e
 
 if [[ "${networkExists}" == "" ]]; then
   echo "Network ${NETWORK_NAME} does not exist, creating..."
