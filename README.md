@@ -42,19 +42,21 @@ make hosts
 
 **TL;DR:**
 
-This _should_ be the only command needed to get things setup and started
+After creating a `local.env` from copying `template.env`, this _should_ be the only command needed to get things setup and started
 
 ```
 make run
 ```
 
-##### What's happening behind the curtain with the `make run` command?
+If all is successful you can test that it's up and working by going to `https://host.local:8000/info` (it will require allowing the [self-signed SSL certificate](https://github.com/stevepartridge/blogorama#create-self-signed-local-ssl-certificates))
+
+#### What's happening behind the curtain with the `make run` command?
 
 ###### Check prerequisites
 
 `make check-prereqs`
 
-Ensures you're running the minimum versions for Go, Docker, and Compose.
+Ensures you're running the minimum versions for Go, Docker, and Compose. It will also check for `local.env` and stop if it is not found.
 
 ###### Create self-signed local ssl certificates
 
@@ -152,3 +154,7 @@ The posts that users can create are handles like so:
 - Get - only creator if flagged as private
 - Get All (with pagination)
 - Get All for Specific User (with pagination)
+
+#### API Documenation
+
+Once the service is running you can view the full API OpenAPI/Swagger documentation at `https://host.local:8000/docs` or view it in your preferred viewer by referencing the JSON at `https://host.local:8000/docs/swagger.json`. It will also allow for running test calls with an API Key via the `Authorize` button (after you've created a user).
