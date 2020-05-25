@@ -1,18 +1,11 @@
 #!/usr/bin/env bash
-set -e
+# set -e
 
 BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
 CUR_DIR=`pwd`
 
 . ./_scripts/env.sh
-
-networkExists=$(docker network ls | grep $NETWORK_NAME)
-
-if [[ "${networkExists}" == "" ]]; then
-  echo "Network ${NETWORK_NAME} does not exist, creating..."
-  docker network create -d bridge --subnet=172.16.200.0/24 $NETWORK_NAME
-fi
 
 cd $BASE_DIR/_docker/
 
@@ -24,6 +17,21 @@ if [[ "$1" == "stop" ]]; then
 
   exit
 fi
+
+if [[ "$NETWORK_NAME" == "" ]]; then
+
+  echo "NETWORK_NAME environment variable is empty or not set.  Please add it to your local.env file and try again."
+  exit 1;
+
+fi
+
+networkExists=$(docker network ls | grep $NETWORK_NAME)
+
+if [[ "${networkExists}" == "" ]]; then
+  echo "Network ${NETWORK_NAME} does not exist, creating..."
+  docker network create -d bridge --subnet=172.16.200.0/24 $NETWORK_NAME
+fi
+
 echo $LOCAL_DOMAIN
 docker-compose -f docker-compose.traefik.yaml -f docker-compose.db.yaml up $@ -d
 

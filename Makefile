@@ -42,8 +42,8 @@ deps:
 # @go mod tidy
 # @go mod vendor
 # If it were a private repo
-	@GOPROXY=direct GOPRIVATE=github.com/stevepartridge/blogorama/* go mod tidy
-	@GOPROXY=direct GOPRIVATE=github.com/stevepartridge/blogorama/* go mod vendor
+#	@GOPROXY=direct GOPRIVATE=github.com/stevepartridge/blogorama/* go mod tidy
+#	@GOPROXY=direct GOPRIVATE=github.com/stevepartridge/blogorama/* go mod vendor
 
 docker:
 	@echo docker
@@ -58,7 +58,7 @@ stop-docker:
 	@echo Stopping Docker...
 	@# see if we have 1 or more
 	@if [ $(shell docker ps -a --no-trunc --quiet --filter name=^/blog --filter status=running | wc -l) -gt 0 ]; then \
-		cd _docker/ && docker-compose down && cd ../; \
+		./_scripts/compose.sh stop; \
 	else \
 		echo "Nothing to do."; \
 	fi
