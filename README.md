@@ -32,7 +32,7 @@ Due to some limitations with Bash 3 it's recommended to have Bash 4+.
 
 ### Running the Service
 
-Everything is managed via a [Makefile](https://github.com/stevepartridge/blogorama/tree/master/_scripts) and a collection of [helper scripts](https://github.com/stevepartridge/blogorama/tree/master/Makefile) in the effort to ease the setup and development processes.
+Everything is managed via a [Makefile](https://github.com/stevepartridge/blogorama/tree/master/Makefile) and a collection of [helper scripts](https://github.com/stevepartridge/blogorama/tree/master/_scripts) in the effort to ease the setup and development processes.
 
 The service is intended to run in a semi-real way that simulates a deployed service. To this it is recommended to add `host.local` to your `/etc/hosts` file. You can use the helper command to this easily:
 
