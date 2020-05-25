@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "option go_package = \"github.com/stevepartridge/blogorama/protos/go\";",
+    "title": "users.proto",
     "version": "version not set"
   },
   "consumes": [
