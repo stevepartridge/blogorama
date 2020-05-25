@@ -7,6 +7,18 @@ CUR_DIR=$(pwd)
 
 PROTOC_VERSION=3.8.0
 
+gomod() {
+  local pkg=$1
+  local num="$(grep -n "$pkg" go.mod | head -n 1 | cut -d: -f1)"
+  local path=$(sed "${num}q;d" go.mod)
+  local parts=( $path )
+  if [ -d "$GOPATH/pkg/mod/${pkg}@${parts[1]}" ]; then
+    echo "$GOPATH/pkg/mod/${pkg}@${parts[1]}"
+    return
+  fi
+  echo $GOPATH/src/${pkg}
+}
+
 if [[ ! $(which protoc) ]]; then
 
   if [ -d ./tmp ]; then
@@ -99,28 +111,17 @@ if [[ ! $(which protoc) ]]; then
   echo "Setup complete"
 fi
 
-gomod() {
-  local pkg=$1
-  local num="$(grep -n "$pkg" go.mod | head -n 1 | cut -d: -f1)"
-  local path=$(sed "${num}q;d" go.mod)
-  local parts=( $path )
-  if [ -d "$GOPATH/pkg/mod/${pkg}@${parts[1]}" ]; then
-    echo "$GOPATH/pkg/mod/${pkg}@${parts[1]}"
-    return
-  fi
-  echo $GOPATH/src/${pkg}
-}
+
 
 grpcGatewayPath=$(gomod "github.com/grpc-ecosystem/grpc-gateway")
-echo $grpcGatewayPath
-if [ ! -d $grpcGatewayPath ]; then
-  GO111MODULE=off go get github.com/grpc-ecosystem/grpc-gateway
+if [ ! -d $grpcGatewayPath ] || [ -d "$grpcGatewayPath/protoc-gen-grpc-gateway" ] || [ -d "$grpcGatewayPath/protoc-gen-swagger" ]; then
+  go get github.com/grpc-ecosystem/grpc-gateway/...
 fi
 
 gogoPath=$(gomod "github.com/gogo/protobuf")
 echo $gogoPath
 if [ ! -d $gogoPath ]; then
-  GO111MODULE=off go get github.com/gogo/protobuf/...
+  go get github.com/gogo/protobuf/...
 fi
 
 printf "Go gRPC Files..."
