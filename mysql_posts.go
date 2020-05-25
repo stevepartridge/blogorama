@@ -31,8 +31,10 @@ func (store MySQL) GetPosts(opts ...int) ([]Post, ResultsInfo, error) {
 			resultsInfo.Offset = opts[1]
 
 			if len(opts) > 2 {
-				createdBy = opts[2]
-				whereSQL = " WHERE created_by = ? "
+				if opts[2] > 0 {
+					createdBy = opts[2]
+					whereSQL = " WHERE created_by = ? "
+				}
 			}
 		}
 
