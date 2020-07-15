@@ -13,6 +13,10 @@ import (
 //  required:
 //    Name
 func (store MySQL) CreateUser(user *User) error {
+	if user == nil {
+		return ErrCreateUserIsNil
+	}
+
 	log.Debug().Interface("user", user).Msg("CreateUser")
 
 	if user.ID > 0 {
@@ -73,6 +77,9 @@ func (store MySQL) CreateUser(user *User) error {
 //    Name
 //    UpdatedByID
 func (store MySQL) UpdateUser(user *User) error {
+	if user == nil {
+		return ErrUpdateUserIsNil
+	}
 	log.Debug().Interface("user", user).Msg("UpdateUser")
 
 	if user.ID == 0 {

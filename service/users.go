@@ -18,7 +18,7 @@ func (s *blogService) CreateUser(ctx context.Context, req *pb.User) (*pb.UserRes
 	}
 
 	user := blog.UserFromProto(req)
-	// user.CreatedByID = extractUserIDFromContext(ctx)
+	user.CreatedByID = extractUserIDFromContext(ctx)
 
 	err := blog.Store.CreateUser(&user)
 	if err != nil {

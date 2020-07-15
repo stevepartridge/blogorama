@@ -13,6 +13,10 @@ import (
 //    Content
 //    CreatedByID
 func (store MySQL) CreatePost(post *Post) error {
+	if post == nil {
+		return ErrCreatePostIsNil
+	}
+
 	log.Debug().Interface("post", post).Msg("CreatePost")
 
 	if post.ID > 0 {
@@ -77,6 +81,9 @@ func (store MySQL) CreatePost(post *Post) error {
 //    Content
 //    UpdatedByID
 func (store MySQL) UpdatePost(post *Post) error {
+	if post == nil {
+		return ErrUpdatePostIsNil
+	}
 	log.Debug().Interface("post", post).Msg("UpdatePost")
 
 	if post.ID == 0 {

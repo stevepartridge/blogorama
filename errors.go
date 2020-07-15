@@ -12,11 +12,17 @@ var (
 	// Users
 	//
 
+	// ErrCreatePostIsNil error
+	ErrCreateUserIsNil = errors.New("blog.users.user.create.user.is_nil")
+
 	// ErrCreateUserIDPresent user missing ID error
 	ErrCreateUserIDPresent = errors.New("blog.users.user.create.user_id.present")
 
 	// ErrCreateUserNameMissing user missing Name error
 	ErrCreateUserNameMissing = errors.New("blog.users.user.create.missing.name")
+
+	// ErrUpdatePostIsNil error
+	ErrUpdateUserIsNil = errors.New("blog.users.user.update.user.is_nil")
 
 	// ErrUpdateUserIDMissing user missing ID error
 	ErrUpdateUserIDMissing = errors.New("blog.users.user.update.missing.id")
@@ -50,6 +56,9 @@ var (
 	// Posts
 	//
 
+	// ErrCreatePostIsNil error
+	ErrCreatePostIsNil = errors.New("blog.users.user.create.user.is_nil")
+
 	// ErrGetPostsByIDsMissingMinimumIDs error message
 	ErrGetPostsByIDsMissingMinimumIDs = errors.New("blog.posts.post.get_by_ids.missing.minimum_one_id")
 
@@ -61,6 +70,9 @@ var (
 
 	// ErrCreatePostContentMissing error message
 	ErrCreatePostContentMissing = errors.New("blog.posts.create.missing.content")
+
+	// ErrUpdatePostIsNil error
+	ErrUpdatePostIsNil = errors.New("blog.posts.update.post.is_nil")
 
 	// ErrUpdatePostIDMissing error message
 	ErrUpdatePostIDMissing = errors.New("blog.posts.update.missing.id")

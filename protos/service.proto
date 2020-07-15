@@ -68,7 +68,7 @@ service Blog {
     };
   }
 
-  // Retrieve a user
+  // Deletes a user
   rpc DeleteUser(User) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete : "/v1/users/{id}"

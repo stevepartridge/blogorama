@@ -274,7 +274,6 @@ func TestUserNilRequests(t *testing.T) {
 	tests := []struct {
 		name        string
 		requestFunc func() error
-		wantErr     bool
 	}{
 		{
 			name: "Fail on create user nil request",
@@ -320,7 +319,7 @@ func TestUserNilRequests(t *testing.T) {
 
 			err := tt.requestFunc()
 			if err == nil {
-				t.Errorf("Unexpected error for '%s' but didn't see one", tt.name)
+				t.Errorf("Expected error for '%s' but didn't see one", tt.name)
 			}
 
 		})
