@@ -7,6 +7,10 @@ CUR_DIR=$(pwd)
 
 PROTOC_VERSION=3.8.0
 
+gomod=$(head -n 1 $BASE_DIR/go.mod)
+GOPKG=${gomod/module /}
+
+
 gomod() {
   local pkg=$1
   local num="$(grep -n "$pkg" go.mod | head -n 1 | cut -d: -f1)"
@@ -32,7 +36,7 @@ fi
 
 # echo $gogoPath
 if [ ! -d $gogoPath ]; then
-  go get github.com/gogo/protobuf@v1.3.5
+  go get github.com/gogo/protobuf@v1.3.1
 fi
 
 if [[ ! $(which protoc) ]]; then
@@ -90,41 +94,29 @@ if [[ ! $(which protoc) ]]; then
 
   protoc --version
 
+  if [ -d ./tmp ]; then
+    rm -Rf ./tmp
+  fi
+
   # exit
   echo "Using go get to retreive grpc-ecosystem/grpc-gateway tools..."
 
-  go get github.com/golang/protobuf/...@v1.22.0
+  go get github.com/golang/protobuf/...@v1.4.2
 
   cd ../
 
-  # this installs globally
-  if [ -d ./vendor/github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway ]; then
-    # printf "vendor protoc-gen-grpc-gateway"
-    go install ./vendor/github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-  elif [ -d $GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway ]; then
-    # printf "gopath protoc-gen-grpc-gateway"
-    go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-  else
-    echo "Unable to find github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway"; exit 1
-  fi
-
-  if [ -d ./vendor/github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger ]; then
-    # printf "vendor protoc-gen-swagger"
-    go install ./vendor/github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
-  elif [ -d $GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger ]; then
-    # printf "gopath protoc-gen-swagger"
-    go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
-  else
-    echo "Unable to find github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger"; exit 1
-  fi
 
   if [ -d ./tmp ]; then
     rm -Rf ./tmp
   fi
 
+  go install \
+    github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway \
+    github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger \
+    github.com/golang/protobuf/protoc-gen-go
+
   echo "Setup complete"
 fi
-
 
 printf "Go gRPC Files..."
 protoc -I=./ \
@@ -132,18 +124,20 @@ protoc -I=./ \
   -I=$grpcGatewayPath \
   -I=$grpcGatewayPath/third_party/googleapis \
   -I=$BASE_DIR/vendor \
-  --proto_path=$BASE_DIR/protos \
-  --go_opt=paths=source_relative \
-  --go_out=plugins=grpc:./protos/go $BASE_DIR/protos/*.proto
+  -I=$BASE_DIR/protos \
+  --go_out=plugins=grpc,paths=source_relative:$BASE_DIR/protos/go $BASE_DIR/protos/*.proto
 
+
+# exit
+# cd $BASE_DIR/protos
 printf "Go gRPC Gateway Files..."
 protoc -I=./ \
   -I=$gogoPath \
   -I=$grpcGatewayPath \
   -I=$grpcGatewayPath/third_party/googleapis \
   -I=$BASE_DIR/vendor \
-  --proto_path=$BASE_DIR/protos \
-  --grpc-gateway_out=logtostderr=true:./protos/go $BASE_DIR/protos/*.proto
+  -I=$BASE_DIR/protos \
+  --grpc-gateway_out=logtostderr=true,paths=source_relative:$BASE_DIR/protos/go $BASE_DIR/protos/*.proto
 
 printf "Swagger/OpenAPI Files..."
 protoc -I=./ \
@@ -152,7 +146,7 @@ protoc -I=./ \
   -I=$grpcGatewayPath/third_party/googleapis \
   -I=$BASE_DIR/vendor \
   --proto_path=$BASE_DIR/protos \
-  --swagger_out=logtostderr=true:./protos/swagger $BASE_DIR/protos/*.proto
+  --swagger_out=logtostderr=true:$BASE_DIR/protos/swagger $BASE_DIR/protos/*.proto
 
 printf "JavaScript gRPC Files..."
 protoc -I=./ \
@@ -161,7 +155,7 @@ protoc -I=./ \
   -I=$grpcGatewayPath/third_party/googleapis \
   -I=$BASE_DIR/vendor \
   --proto_path=$BASE_DIR/protos \
-  --js_out=import_style=commonjs,binary:./protos/js $BASE_DIR/protos/*.proto
+  --js_out=import_style=commonjs,binary:$BASE_DIR/protos/js $BASE_DIR/protos/*.proto
 
 echo "done"
 
