@@ -6,8 +6,10 @@ require (
 	github.com/Boostport/migration v0.18.0
 	github.com/DATA-DOG/go-sqlmock v1.4.1
 	github.com/fsnotify/fsnotify v1.4.9
+	github.com/go-bindata/go-bindata v3.1.2+incompatible
 	github.com/go-openapi/spec v0.19.8
 	github.com/go-sql-driver/mysql v1.5.0
+	github.com/gogo/protobuf v1.3.1
 	github.com/golang/protobuf v1.4.2
 	github.com/google/uuid v1.0.0
 	github.com/grpc-ecosystem/grpc-gateway v1.14.6
