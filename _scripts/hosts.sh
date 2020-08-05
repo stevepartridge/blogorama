@@ -8,6 +8,7 @@ CUR_DIR=`pwd`
 HOSTS="
 host.local
 blog.host.local
+traefik.host.local
 "
 
 for host in $HOSTS
