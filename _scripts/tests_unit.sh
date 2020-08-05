@@ -6,8 +6,6 @@ CUR_DIR=$(pwd)
 
 cd $BASE_DIR
 
-export GOPROXY=direct GOPRIVATE=githost.in/peartree/*
-
 if [[ "$1" == "total" ]]; then
 
   PASS="ok"
