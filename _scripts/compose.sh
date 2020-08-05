@@ -31,7 +31,7 @@ set -e
 
 if [[ "${networkExists}" == "" ]]; then
   echo "Network ${NETWORK_NAME} does not exist, creating..."
-  docker network create -d bridge --subnet=172.16.200.0/24 $NETWORK_NAME
+  docker network create -d bridge --subnet=${SUBNET_IP}.0/24 $NETWORK_NAME
 fi
 
 echo $LOCAL_DOMAIN

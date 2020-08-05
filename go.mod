@@ -21,7 +21,8 @@ require (
 	github.com/stevepartridge/db v0.0.0-20200501194407-f3b02faeb1bc
 	github.com/stevepartridge/service v0.0.0-20191110043423-2eaebbca99f9
 	golang.org/x/net v0.0.0-20200520182314-0ba52f642ac2
-	google.golang.org/genproto v0.0.0-20200521103424-e9a78aa275b7
+	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013
 	google.golang.org/grpc v1.29.1
+	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
