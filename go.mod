@@ -5,6 +5,7 @@ go 1.13
 require (
 	github.com/Boostport/migration v0.18.0
 	github.com/DATA-DOG/go-sqlmock v1.4.1
+	github.com/elazarl/go-bindata-assetfs v1.0.1 // indirect
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/go-bindata/go-bindata v3.1.2+incompatible
 	github.com/go-openapi/spec v0.19.8
