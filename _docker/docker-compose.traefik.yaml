@@ -6,7 +6,7 @@ services:
     container_name: "blog_traefik"
     networks:
       blog:
-        ipv4_address: 172.16.200.100
+        ipv4_address: "${SUBNET_IP}.100"
         aliases:
           - traefik.${LOCAL_DOMAIN}
 
