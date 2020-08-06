@@ -82,6 +82,7 @@ func (s *Service) Reload() error {
 
 // Shutdown is the last call of the service that sends everyone home and attempts to gracefully close down the service
 func (s *Service) Shutdown(ctx context.Context) error {
-	s.Server.Grpc.Server.GracefulStop()
+	defer s.Server.Grpc.Server.GracefulStop()
+	<-ctx.Done()
 	return nil
 }
