@@ -159,6 +159,6 @@ func shutdown(errs ...error) {
 		}
 	}
 	time.Sleep(3 * time.Second)
-	fmt.Println("bye.")
+	fmt.Println("bye, felica!")
 	os.Exit(1)
 }
